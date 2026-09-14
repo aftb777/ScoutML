@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Player Valuation</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f4f6f8;
+    color: #111827;
+}
+
+/* ================= HEADER ================= */
+
+header {
+    background: #07111f;
+    color: white;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #1e293b;
+}
+
+.header-inner {
+    width: min(1100px, calc(100% - 40px));
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.logo-ball {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #16a34a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.header-tag {
+    font-size: 12px;
+    color: #86efac;
+    background: rgba(34,197,94,.08);
+    border: 1px solid rgba(34,197,94,.25);
+    padding: 7px 12px;
+    border-radius: 20px;
+}
+
+/* ================= PAGE ================= */
+
+main {
+    width: min(900px, calc(100% - 32px));
+    margin: auto;
+    padding: 55px 0 80px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 38px;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 42px;
+    letter-spacing: -1.5px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.hero h1 span {
+    color: #16a34a;
+}
+
+.hero p {
+    margin: 12px auto 0;
+    max-width: 600px;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* ================= FORM CARD ================= */
+
+.form-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, .07);
+}
+
+.section {
+    padding: 28px 32px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.section:last-of-type {
+    border-bottom: none;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 22px;
+}
+
+.section-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #ecfdf5;
+    color: #16a34a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.section-heading h2 {
+    margin: 0;
+    font-size: 16px;
+    color: #111827;
+}
+
+.section-heading p {
+    margin: 3px 0 0;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+/* ================= INPUT GRID ================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+}
+
+input,
+select {
+    width: 100%;
+    height: 43px;
+    padding: 0 12px;
+    border: 1px solid #dbe1e8;
+    border-radius: 9px;
+    background: #f8fafc;
+    color: #111827;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: all .2s ease;
+}
+
+input:hover,
+select:hover {
+    border-color: #94a3b8;
+}
+
+input:focus,
+select:focus {
+    background: white;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22,163,74,.10);
+}
+
+/* ================= BUTTON ================= */
+
+.button-area {
+    padding: 25px 32px 30px;
+    background: #fafafa;
+}
+
+button {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background: #16a34a;
+    color: white;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+button:hover {
+    background: #15803d;
+    transform: translateY(-1px);
+    box-shadow: 0 7px 20px rgba(22,163,74,.2);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ================= RESULT ================= */
+
+#result {
+    margin-top: 24px;
+    background: #07111f;
+    color: white;
+    border-radius: 18px;
+    padding: 32px;
+    text-align: center;
+    display: none;
+    box-shadow: 0 12px 35px rgba(15,23,42,.18);
+}
+
+.result-title {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+#result .value {
+    margin: 8px 0;
+    font-size: 42px;
+    font-weight: 800;
+    color: #4ade80;
+}
+
+.result-subtitle {
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* ================= ERROR ================= */
+
+#error {
+    margin-top: 18px;
+    padding: 13px 16px;
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+    font-size: 13px;
+    display: none;
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    text-align: center;
+    margin-top: 28px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 750px) {
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    main {
+        width: calc(100% - 20px);
+        padding-top: 35px;
+    }
+
+    .header-inner {
+        width: calc(100% - 24px);
+    }
+
+    .header-tag {
+        display: none;
+    }
+
+    .section {
+        padding: 22px 18px;
+    }
+
+    .button-area {
+        padding: 20px 18px 24px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    #result .value {
+        font-size: 34px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="header-inner">
+
+        <div class="logo">
+            <div class="logo-ball">⚽</div>
+            <span>Player Value AI</span>
+        </div>
+
+        <div class="header-tag">
+            ML POWERED • FOOTBALL ANALYTICS
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+    <div class="hero">
+
+        <h1>
+            Football Player
+            <span>Valuation</span>
+        </h1>
+
+        <p>
+            Estimate a player's current market value using
+            performance, player profile, club strength,
+            transfer history and contract data.
+        </p>
+
+    </div>
+
+
+    <!-- ================= FORM ================= -->
+
+    <div class="form-card">
+
+        <form id="predict-form">
+
+
+            <!-- PLAYER PROFILE -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">01</div>
+
+                    <div>
+                        <h2>Player Profile</h2>
+                        <p>Basic player characteristics</p>
+                    </div>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label>Age</label>
+                        <input
+                            type="number"
+                            step="0.1"
+                            name="age"
+                            value="24"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Height (cm)</label>
+                        <input
+                            type="number"
+                            name="height_in_cm"
+                            value="180"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Position</label>
+
+                        <select name="position">
+                            <option>Attack</option>
+                            <option>Midfield</option>
+                            <option>Defender</option>
+                            <option>Goalkeeper</option>
+                        </select>
+                    </div>
+
+
+                    <div class="field">
+                        <label>Sub-position</label>
+                        <input
+                            type="text"
+                            name="sub_position"
+                            value="Centre-Forward"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Preferred Foot</label>
+
+                        <select name="foot">
+                            <option value="right">Right</option>
+                            <option value="left">Left</option>
+                            <option value="both">Both</option>
+                        </select>
+                    </div>
+
+
+                    <div class="field">
+                        <label>Nationality</label>
+                        <input
+                            type="text"
+                            name="country_of_citizenship"
+                            value="England"
+                        >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CLUB -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">02</div>
+
+                    <div>
+                        <h2>Club & Competition</h2>
+                        <p>Current club environment</p>
+                    </div>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label>Club Name</label>
+
+                        <input
+                            type="text"
+                            name="club_name"
+                            value="Arsenal FC"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Competition ID</label>
+
+                        <input
+                            type="text"
+                            name="club_domestic_competition_id"
+                            value="GB1"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Club Squad Size</label>
+
+                        <input
+                            type="number"
+                            name="club_squad_size"
+                            value="25"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Club Average Age</label>
+
+                        <input
+                            type="number"
+                            step="0.1"
+                            name="club_average_age"
+                            value="25"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Club Total Market Value (€)</label>
+
+                        <input
+                            type="number"
+                            name="club_total_market_value"
+                            value="500000000"
+                        >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERFORMANCE -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">03</div>
+
+                    <div>
+                        <h2>Performance</h2>
+                        <p>Last-season statistics</p>
+                    </div>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label>Appearances</label>
+
+                        <input
+                            type="number"
+                            name="last_season_appearances"
+                            value="30"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Minutes Played</label>
+
+                        <input
+                            type="number"
+                            name="last_season_minutes"
+                            value="2500"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Goals</label>
+
+                        <input
+                            type="number"
+                            name="last_season_goals"
+                            value="15"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Assists</label>
+
+                        <input
+                            type="number"
+                            name="last_season_assists"
+                            value="8"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Yellow Cards</label>
+
+                        <input
+                            type="number"
+                            name="last_season_yellow_cards"
+                            value="3"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Red Cards</label>
+
+                        <input
+                            type="number"
+                            name="last_season_red_cards"
+                            value="0"
+                        >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TRANSFER -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <div class="section-number">04</div>
+
+                    <div>
+                        <h2>Transfer & Contract</h2>
+                        <p>Historical transfer and contract information</p>
+                    </div>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="field">
+                        <label>Prior Transfers</label>
+
+                        <input
+                            type="number"
+                            name="num_prior_transfers"
+                            value="1"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Last Transfer Fee (€)</label>
+
+                        <input
+                            type="number"
+                            name="last_transfer_fee"
+                            value="20000000"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Maximum Transfer Fee (€)</label>
+
+                        <input
+                            type="number"
+                            name="max_transfer_fee"
+                            value="20000000"
+                        >
+                    </div>
+
+
+                    <div class="field">
+                        <label>Contract Years Remaining</label>
+
+                        <input
+                            type="number"
+                            step="0.1"
+                            name="contract_years_remaining"
+                            value="2.5"
+                        >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div class="button-area">
+
+                <button
+                    type="submit"
+                    id="submit-btn"
+                >
+                    ⚡ Predict Market Value
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- ================= RESULT ================= -->
+
+    <div id="result">
+
+        <div class="result-title">
+            Estimated Current Market Value
+        </div>
+
+        <div
+            class="value"
+            id="result-value"
+        ></div>
+
+        <div class="result-subtitle">
+            XGBoost model prediction based on supplied player data
+        </div>
+
+    </div>
+
+
+    <div id="error"></div>
+
+
+    <div class="footer">
+        Football Transfer Value Prediction • Machine Learning Project
+    </div>
+
+</main>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+const API_URL = "";
+
+const form = document.getElementById("predict-form");
+
+const submitBtn =
+    document.getElementById("submit-btn");
+
+const resultBox =
+    document.getElementById("result");
+
+const errorBox =
+    document.getElementById("error");
+
+
+form.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const data =
+        Object.fromEntries(
+            new FormData(form).entries()
+        );
+
+
+    resultBox.style.display = "none";
+    errorBox.style.display = "none";
+
+
+    submitBtn.disabled = true;
+
+    submitBtn.textContent =
+        "⏳ Predicting...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/predict`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(data)
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error ||
+                `Server returned ${response.status}`
+            );
+
+        }
+
+
+        const euros =
+            result.predicted_market_value_eur
+                .toLocaleString(
+                    "en-US",
+                    {
+                        style: "currency",
+                        currency: "EUR",
+                        maximumFractionDigits: 0
+                    }
+                );
+
+
+        document.getElementById(
+            "result-value"
+        ).textContent = euros;
+
+
+        resultBox.style.display = "block";
+
+
+        resultBox.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+
+    } catch (err) {
+
+        errorBox.textContent =
+            "Prediction failed: " +
+            err.message +
+            " — make sure app.py is running.";
+
+        errorBox.style.display = "block";
+
+    } finally {
+
+        submitBtn.disabled = false;
+
+        submitBtn.textContent =
+            "⚡ Predict Market Value";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
